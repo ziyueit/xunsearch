@@ -1,10 +1,10 @@
 
-    # xunsearch
+# xunsearch
 <p>
     xunsearch的一个PHP封装类
 </p>
 
-    # 目录结构
+# 目录结构说明
 
 <p>
     www&nbsp;&nbsp;WEB部署目录
@@ -36,9 +36,10 @@
 <p>
     └─test.sql&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 测试用的表结构
 </p>
-	# 迅搜的安装、索引的创建以及搜索骨架的生成请参考：http://unun.in/php/102.html
 
-    # 一点说明：
+迅搜的安装、索引的创建以及搜索骨架的生成请参考： http://unun.in/php/102.html
+
+# 一点说明：
 
 <p>
     我在xunsearch官方群提问时一个网名叫“胡诌诌~”的朋友发给我的一个他用的封装类，本类有部分方法仿于那个类
