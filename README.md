@@ -36,9 +36,9 @@
 <p>
     └─test.sql&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 测试用的表结构
 </p>
-
+该类的方法说明请参考：http://unun.in/php/104.html
 迅搜的安装、索引的创建以及搜索骨架的生成请参考： http://unun.in/php/102.html
-
+迅搜的使用中开始使用时可能遇到的问题请参考： http://unun.in/php/103.html
 # 一点说明：
 
 <p>
