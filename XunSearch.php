@@ -15,7 +15,7 @@ class XunSearch
     public function __construct($project)
     {
         //这个路径可以根据自己的情况改成你自己的
-        require_once './php/lib/XS.php';
+        require_once SITE_ROOT.'/tool/xunsearch/lib/XS.php';
         $xs = new XS($project);
         $this->_project = $project;
         $this->_xindex = $xs->index;
@@ -23,8 +23,14 @@ class XunSearch
         $this->_xsearch->setCharset('UTF-8');
     }
 
-
-    public function search($keyWord,$row=10,$jumpNum=0)
+    /**
+     * todo 待改进，还有问题
+     * @param $keyWord
+     * @param int $row
+     * @param int $jumpNum
+     * @return array
+     */
+    public function searchIndex($keyWord,$row,$jumpNum)
     {
         $xs = new XS($this->_project);
         //开启模糊搜索
@@ -35,10 +41,18 @@ class XunSearch
         //设置搜索结果的数量和偏移用于搜索结果分页, 每次调用search后会还原这2个变量到初始值
         $xs->search->setLimit($row, $jumpNum);
         //执行搜索，并将搜索结果文档保存到$data中
-        $data = $xs->search->search();
+        $docs = $xs->search->search();
         //获取搜索结果总数的估算值
         $count = $xs->search->count();
-        return array('data'=>$data,'count'=>$count);
+        /*if($count){
+            $data = array();
+            foreach ($docs as $key=>$doc){
+                $data[$key]['id'] = $doc->id;
+                $data[$key]['name'] = $xs->search->highlight(htmlspecialchars($doc->name));
+            }
+            return array('data'=>$data,'count'=>$count);
+        }*/
+        return array('data'=>$docs,'count'=>$count,'obj'=>$xs);
     }
 
     /**
