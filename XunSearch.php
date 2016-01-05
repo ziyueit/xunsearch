@@ -7,30 +7,20 @@
  */
 class XunSearch
 {
-
     private $_xindex;
     private $_xsearch;
     private $_project;
-
     public function __construct($project)
     {
         //这个路径可以根据自己的情况改成你自己的
-        require_once SITE_ROOT.'/tool/xunsearch/lib/XS.php';
+        require_once './php/lib/XS.php';
         $xs = new XS($project);
         $this->_project = $project;
         $this->_xindex = $xs->index;
         $this->_xsearch = $xs->search;
         $this->_xsearch->setCharset('UTF-8');
     }
-
-    /**
-     * todo 待改进，还有问题
-     * @param $keyWord
-     * @param int $row
-     * @param int $jumpNum
-     * @return array
-     */
-    public function searchIndex($keyWord,$row,$jumpNum)
+    public function search($keyWord,$row=10,$jumpNum=0)
     {
         $xs = new XS($this->_project);
         //开启模糊搜索
@@ -41,20 +31,11 @@ class XunSearch
         //设置搜索结果的数量和偏移用于搜索结果分页, 每次调用search后会还原这2个变量到初始值
         $xs->search->setLimit($row, $jumpNum);
         //执行搜索，并将搜索结果文档保存到$data中
-        $docs = $xs->search->search();
+        $data = $xs->search->search();
         //获取搜索结果总数的估算值
         $count = $xs->search->count();
-        /*if($count){
-            $data = array();
-            foreach ($docs as $key=>$doc){
-                $data[$key]['id'] = $doc->id;
-                $data[$key]['name'] = $xs->search->highlight(htmlspecialchars($doc->name));
-            }
-            return array('data'=>$data,'count'=>$count);
-        }*/
-        return array('data'=>$docs,'count'=>$count,'obj'=>$xs);
+        return array('data'=>$data,'count'=>$count,'object'=>$xs);
     }
-
     /**
      * 添加/更新索引到索引队列中，默认是更新
      * @param $data
@@ -70,7 +51,6 @@ class XunSearch
             $this->_xindex->add($document);
         }
     }
-
     /**
      * 强制刷新服务端的当前库的索引缓存
      * @return bool
@@ -79,7 +59,6 @@ class XunSearch
     {
         return $this->_xindex->flushIndex();
     }
-
     /**
      * 完全清空索引数据
      */
@@ -87,7 +66,6 @@ class XunSearch
     {
         $this->_xindex->clean();
     }
-
     /**
      * 删除索引
      * @param array|int $id
@@ -98,7 +76,6 @@ class XunSearch
     {
         $this->_xindex->del($id);
     }
-
     /**
      * 获取热门搜索词列表
      * @param $num 需要返回的热门搜索数量上限, 最大值为50
@@ -109,7 +86,6 @@ class XunSearch
     {
         return $this->_xsearch->getHotQuery($num,$type);
     }
-
     /**
      * 读取展开的搜索词，主要用于做搜索建议和搜索纠错
      * @param $keyWord
@@ -120,7 +96,6 @@ class XunSearch
     {
         return $this->_xsearch->getExpandedQuery($keyWord,$num);
     }
-
     /**
      * 最近一次搜索的结果匹配总数估算值
      * @return int
@@ -129,7 +104,6 @@ class XunSearch
     {
         return $this->_xsearch->getLastCount();
     }
-
     /**
      * 添加同义词
      * @param $word
@@ -139,7 +113,6 @@ class XunSearch
     {
         $this->_xindex->addSynonym($word,$Synonym);
     }
-
     /**
      * 强制刷新服务端当前项目的搜索日志
      * @return bool
